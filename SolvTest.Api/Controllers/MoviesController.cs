@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SolvTest.Api.Data.Models;
-using SolvTest.Api.Data.Repositories;
 using SolvTest.Api.Data.Services;
 
 namespace SolvTest.Api.Controllers

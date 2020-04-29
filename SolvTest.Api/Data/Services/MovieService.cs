@@ -24,6 +24,8 @@ namespace SolvTest.Api.Data.Services
 
         public IQueryable<MovieModel> GetMovies(string movieDescription)
         {
+            //if nothing was passed in, return all
+            //obviously wouldn't do this in production
             if (string.IsNullOrEmpty(movieDescription))
             {
                 return ListAllMovies();
@@ -44,26 +46,10 @@ namespace SolvTest.Api.Data.Services
 
         }
 
-        public IQueryable<ShowTimeModel> ListAllShowTimes()
-        {
-            /*if (_userService.CurrentUser != null)
-                return _context.Subscriptions
-                        .Where(u => u.UserId == _userService.CurrentUser.Id)
-                        .Select(u => u.Feed)
-                        .Where(f => !f.IsDeleted)
-                        .OrderBy(x => x.Name)
-                        .ProjectTo<Feed>(_mapper.ConfigurationProvider);
-
-            return new List<Feed>().AsQueryable();*/
-            //_context.ShowTimes.S
-            return null;
-
-        }
         public IQueryable<MovieModel> ListAllMovies()
         {
             return _context
                 .Movies
-                //.Select(m => m)
                 .ProjectTo<MovieModel>(_mapper.ConfigurationProvider);
         }
 
@@ -76,6 +62,7 @@ namespace SolvTest.Api.Data.Services
 
             return _context.Movies.Any(m => m.Id == movieId);
         }
+
         public MovieModel MovieDetails(Guid movieId)
         {
             return _context
@@ -84,8 +71,7 @@ namespace SolvTest.Api.Data.Services
                 .ProjectTo<MovieModel>(_mapper.ConfigurationProvider)
                 .SingleOrDefault();
         }
-
-
+        
         public IQueryable<ShowTimeModel> GetShowTimes(Guid movieId)
         {
             if (movieId == Guid.Empty)

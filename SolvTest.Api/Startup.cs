@@ -1,22 +1,16 @@
+using System;
+using System.IO;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SolvTest.Api.Data.DbContexts;
-using SolvTest.Api.Data.Entities;
-using SolvTest.Api.Data.Models;
-using SolvTest.Api.Data.Repositories;
-using SolvTest.Api.Data.Services;
 using Microsoft.OpenApi.Models;
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using SolvTest.Api.Data.DbContexts;
+using SolvTest.Api.Data.Services;
 
 namespace SolvTest.Api
 {
@@ -35,17 +29,8 @@ namespace SolvTest.Api
             services.AddControllers(config =>
             {
                 //let's save consumers from themselves
-                config.ReturnHttpNotAcceptable = true;
-
-                /*config.Filters.Add(
-                new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
-                config.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-                config.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));*/
-            });
-            //let's give XML consumers some love too
-            //.AddXmlDataContractSerializerFormatters();
+                config.ReturnHttpNotAcceptable = true;                
+            });          
 
 
             //add our sqlite db context
@@ -59,23 +44,11 @@ namespace SolvTest.Api
             //and we can just look at the current assembly to find our mapping profiles
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            //services.AddScoped<IMovieRepository<MovieModel>, MovieRepository<MovieEntity, MovieModel>>();
-            //services.AddScoped<IMovieRepository<ShowTimeModel>, MovieRepository<ShowTimeEntity, ShowTimeModel>>();
             services.AddScoped<IMovieService, MovieService>();
 
-
-            //Todo: fix this
-            /*services.Scan(scan => scan
-               .FromAssemblyOf<NewsFeedContext>()
-               .AddClasses(classes => classes.AssignableTo<IInstaller>())
-               .AsImplementedInterfaces()
-               .WithTransientLifetime()
-               );*/
-
+            //config swagger
             services.AddSwaggerGen(config =>
-            {
-
-                
+            {               
 
                 config.SwaggerDoc("v1",
                     new OpenApiInfo {
@@ -116,6 +89,10 @@ namespace SolvTest.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SolvTest Api V1");
+
+                //since we dont have an actual website and content, remove the
+                //swagger url segment, so that when we run the app, it just immediately goes to the swagger
+                //documentation page
                 c.RoutePrefix = "";
             });
 

@@ -26,7 +26,6 @@
     <Folder Include="Data\" />
     <Folder Include="Data\Entities\" />
     <Folder Include="Data\Models\" />
-    <Folder Include="Data\Repositories\" />
     <Folder Include="Data\DbContexts\" />
     <Folder Include="Data\AutoMapper\" />
     <Folder Include="Controllers\" />
