@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolvTest", "SolvTest\SolvTest.csproj", "{4D0DBAC5-EF80-4FE6-80A9-6C31CD38CD1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolvTest.Api", "SolvTest.Api\SolvTest.Api.csproj", "{4D0DBAC5-EF80-4FE6-80A9-6C31CD38CD1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

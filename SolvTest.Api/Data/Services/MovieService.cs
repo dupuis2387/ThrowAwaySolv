@@ -31,6 +31,8 @@ namespace SolvTest.Api.Data.Services
 
             movieDescription = movieDescription.Trim();
 
+
+            //lazy sql like. more efficient way to do it, but no time.
             return _context
                 .Movies
                 .Where(
