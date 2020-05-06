@@ -8,6 +8,8 @@ It uses:
 - .Net Core 3
 - Swagger/Swashbuckle
 - Sample showing of using AutoMapper
+- Repository pattern
+
 
 ### Requirement:
 
