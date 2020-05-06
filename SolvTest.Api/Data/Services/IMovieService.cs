@@ -9,7 +9,7 @@ namespace SolvTest.Api.Data.Services
         /// <summary>
         /// Get a list of movies, matching an optional passed criteria to search on
         /// </summary>
-        /// <param name="movieDescription">A piece of text to try and match against a movie title or description. Omit to get back all the movies</param>
+        /// <param name="optionalMovieDescription">A piece of text to try and match against a movie title or description. Omit to get back all the movies</param>
         /// <returns></returns>
         IQueryable<MovieModel> GetMovies(string optionalMovieDescription= null);
 
