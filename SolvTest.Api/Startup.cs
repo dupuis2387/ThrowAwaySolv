@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SolvTest.Api.Data.DbContexts;
+using SolvTest.Api.Data.Repositories.Concrete;
 using SolvTest.Api.Data.Services;
 
 namespace SolvTest.Api
@@ -29,8 +30,8 @@ namespace SolvTest.Api
             services.AddControllers(config =>
             {
                 //let's save consumers from themselves
-                config.ReturnHttpNotAcceptable = true;                
-            });          
+                config.ReturnHttpNotAcceptable = true;
+            });
 
 
             //add our sqlite db context
@@ -44,7 +45,9 @@ namespace SolvTest.Api
             //and we can just look at the current assembly to find our mapping profiles
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddScoped<IMovieService, MovieService>();
+            services.AddTransient<IMovieService, MovieService>();
+            services.AddTransient<IMovieRepository, MovieRepository>();
+            services.AddTransient<IShowTimeRepository, ShowTimeRepository>();
 
             //config swagger
             services.AddSwaggerGen(config =>

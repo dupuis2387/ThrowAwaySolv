@@ -7,8 +7,6 @@ namespace SolvTest.Api.Data.Models
 
         public DateTime MovieShowTime { get; set; }
 
-        //public string Movie { get; set; }
-
         public Guid MovieId { get; set; }
     }
 }

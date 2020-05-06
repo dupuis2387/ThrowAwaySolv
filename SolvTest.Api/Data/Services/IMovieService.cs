@@ -6,41 +6,31 @@ namespace SolvTest.Api.Data.Services
 {
     public interface IMovieService
     {
-        
-
         /// <summary>
-        /// Lists all the movies
+        /// Get a list of movies, matching an optional passed criteria to search on
         /// </summary>
+        /// <param name="movieDescription">A piece of text to try and match against a movie title or description. Omit to get back all the movies</param>
         /// <returns></returns>
-        IQueryable<MovieModel> ListAllMovies();
+        IQueryable<MovieModel> GetMovies(string optionalMovieDescription= null);
 
         /// <summary>
-        /// Lists all the movies matching a search string/description
-        /// or internally calls <seealso cref="ListAllMovies"/> to return everything
+        /// Returns the details of a movie, including showtimes
         /// </summary>
-        /// <param name="movieDescription">a criterion for the list of movies to return matching the movieDescription search string</param>
-        /// <returns>One or more movies matching the search. Or all movies, if not search string is provided.</returns>
-        IQueryable<MovieModel> GetMovies(string movieDescription);
-        
-        /// <summary>
-        /// Returns the details of a specific movie
-        /// </summary>
-        /// <param name="movieId">The GUID id of a given movie</param>
+        /// <param name="movieId">A valid movie GUID</param>
         /// <returns></returns>
         MovieModel MovieDetails(Guid movieId);
 
-
         /// <summary>
-        /// Checks to see if given a movie's Id, it exists
+        /// Check to see if given a movie GUID, the movie exists
         /// </summary>
-        /// <param name="movieId">The GUID id of a given movie</param>
+        /// <param name="movieId">A valid movie GUID</param>
         /// <returns></returns>
         bool MovieExists(Guid movieId);
 
         /// <summary>
-        /// Gets a list of showtimes for a given movie GUID id
+        /// Gets a list of showtimes for a given movie GUID
         /// </summary>
-        /// <param name="movieId">The GUID id of a given movie</param>
+        /// <param name="movieId">A valid movie GUID</param>
         /// <returns></returns>
         IQueryable<ShowTimeModel> GetShowTimes(Guid movieId);
 

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using SolvTest.Api.Data;
-
+using SolvTest.Api.Data.Entities;
+using SolvTest.Api.Data.Models;
 
 namespace SolvTest.Api.Data.AutoMapper
 {
@@ -13,9 +15,11 @@ namespace SolvTest.Api.Data.AutoMapper
             //of my working knowlege of AutoMapper
             CreateMap<Entities.MovieEntity, Models.MovieModel>()
                 .ForMember(
-                //project simple image string url to actual Uri type
-                entity=> entity.ImageUrl,
-                model=> model.MapFrom(src=>new Uri(src.ArtUrl))
+                    //project simple image string url to actual Uri type
+                    entity=> entity.ImageUrl,
+                    model=> model.MapFrom(
+                        src=>new Uri(src.ArtUrl)
+                    )               
             );
 
             CreateMap<Entities.ShowTimeEntity, Models.ShowTimeModel>();

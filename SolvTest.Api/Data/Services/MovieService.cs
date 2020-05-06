@@ -1,77 +1,58 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using SolvTest.Api.Data.DbContexts;
-using SolvTest.Api.Data.Models;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
+using SolvTest.Api.Data.Models;
+using SolvTest.Api.Data.Repositories.Concrete;
 
 namespace SolvTest.Api.Data.Services
 {
     public class MovieService : IMovieService
     {
-        private readonly MovieContext _context;
+        private readonly IMovieRepository _movieRepo;
+        private readonly IShowTimeRepository _showtimeRepo;
 
         //i find it easier to house the mapper here rather than peppered
         //around elsewhere, like the controllers
         private readonly IMapper _mapper;
 
-        public MovieService(MovieContext context, IMapper mapper)
+        public MovieService(IMovieRepository movieRepo, IShowTimeRepository showTimeRepo, IMapper mapper)
         {
-            _context = context;
+            _movieRepo = movieRepo;
             _mapper = mapper;
+            _showtimeRepo = showTimeRepo;
         }
 
-        public IQueryable<MovieModel> GetMovies(string movieDescription)
+        public IQueryable<MovieModel> GetMovies(string optionalMovieDescription = null)
         {
-            //if nothing was passed in, return all
-            //obviously wouldn't do this in production
-            if (string.IsNullOrEmpty(movieDescription))
-            {
-                return ListAllMovies();
-            }
 
-            movieDescription = movieDescription.Trim();
+            return _movieRepo
+                     .GetMovies(optionalMovieDescription)
+                     .ProjectTo<MovieModel>(_mapper.ConfigurationProvider);
 
-
-            //lazy sql like. more efficient way to do it, but no time.
-            return _context
-                .Movies
-                .Where(
-                    m => EF.Functions.Like(m.Title, $"%{ movieDescription }%")
-                    || EF.Functions.Like(m.PlaintextDescription, $"%{ movieDescription }%")
-                    || EF.Functions.Like(m.HtmlDescription, $"%{ movieDescription }%")
-                )
-                .ProjectTo<MovieModel>(_mapper.ConfigurationProvider);
-
-        }
-
-        public IQueryable<MovieModel> ListAllMovies()
-        {
-            return _context
-                .Movies
-                .ProjectTo<MovieModel>(_mapper.ConfigurationProvider);
         }
 
         public bool MovieExists(Guid movieId)
         {
-            if(movieId == Guid.Empty)
+            if (movieId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(movieId));
             }
 
-            return _context.Movies.Any(m => m.Id == movieId);
+            return (null != _movieRepo.MovieDetails(movieId));
         }
 
         public MovieModel MovieDetails(Guid movieId)
         {
-            return _context
-                .Movies
-                .Where(m => m.Id == movieId)
-                .ProjectTo<MovieModel>(_mapper.ConfigurationProvider)
-                .SingleOrDefault();
+            if (movieId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(movieId));
+            }
+
+            return _mapper.Map<MovieModel>(_movieRepo.MovieDetails(movieId));
+
         }
-        
+
         public IQueryable<ShowTimeModel> GetShowTimes(Guid movieId)
         {
             if (movieId == Guid.Empty)
@@ -79,10 +60,10 @@ namespace SolvTest.Api.Data.Services
                 throw new ArgumentNullException(nameof(movieId));
             }
 
-            return _context.ShowTimes
-                        .Where(s => s.MovieId == movieId)
-                        .OrderBy(c => c.MovieShowTime)
-                        .ProjectTo<ShowTimeModel>(_mapper.ConfigurationProvider);
+            return  _showtimeRepo
+                    .GetShowTimesForMovie(movieId)
+                    .OrderBy(c => c.MovieShowTime)
+                    .ProjectTo<ShowTimeModel>(_mapper.ConfigurationProvider);
         }
 
 

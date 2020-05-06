@@ -21,6 +21,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -31,5 +32,8 @@
     <Folder Include="Controllers\" />
     <Folder Include="Data\Migrations\" />
     <Folder Include="Data\Services\" />
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="Data\Repositories\Abstract\" />
+    <Folder Include="Data\Repositories\Concrete\" />
   </ItemGroup>
 </Project>

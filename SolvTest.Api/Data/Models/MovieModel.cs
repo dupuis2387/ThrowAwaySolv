@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using SolvTest.Api.Data.Entities;
 
 namespace SolvTest.Api.Data.Models
@@ -12,6 +13,6 @@ namespace SolvTest.Api.Data.Models
         public string HtmlDescription { get; set; }
         public DateTime ReleaseDate { get; set; }
         public Uri ImageUrl { get; set; }
-        public ICollection<ShowTimeEntity> ShowTimes { get; set; }
+        public ICollection<ShowTimeModel> ShowTimes { get; set; }
     }
 }

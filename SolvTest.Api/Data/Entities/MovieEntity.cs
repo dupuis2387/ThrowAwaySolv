@@ -32,7 +32,7 @@ namespace SolvTest.Api.Data.Entities
 
         /// <summary>
         /// A Movie can have 0 or more show times
-        /// </summary>
+        /// </summary>        
         public ICollection<ShowTimeEntity> ShowTimes { get; set; }
         = new List<ShowTimeEntity>();
 
